@@ -1,16 +1,25 @@
 import {Injectable} from '@angular/core';
-import { Http } from '@angular/http';
-import { User } from './user';
+import {Http} from '@angular/http';
+
 import {Observable} from "rxjs";
+import "rxjs/add/operator/map";
+
+import {User} from './user';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class UserListService {
-    private baseUrl: string = "http://localhost:4567/api/";
-    constructor(private http:Http) { }
+    private userUrl: string = environment.API_URL + "users";
+
+    constructor(private http: Http) {
+    }
 
     getUsers(): Observable<User[]> {
-        let body = this.http.request(this.baseUrl + 'users').map(res => res.json());
-        console.log(body);
-        return body;
+        let observable: Observable<any> = this.http.request(this.userUrl);
+        return observable.map(res => res.json());
+    }
+
+    getUserById(id: string): Observable<User> {
+        return this.http.request(this.userUrl + "/" + id).map(res => res.json());
     }
 }
