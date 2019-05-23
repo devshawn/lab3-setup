@@ -39,7 +39,7 @@
     "typescript": "^2.1.5",
     "typings": "^2.1.0",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack-dev-server": "^3.1.11"
   },
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.dev.js --colors"
