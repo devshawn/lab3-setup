@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HomeComponent} from './home.component';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import { MatCardModule } from '@angular/material/card';
 
 describe('Home', () => {
 
@@ -12,7 +13,7 @@ describe('Home', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [MatCardModule],
       declarations: [HomeComponent], // declare the test component
     });
 
@@ -27,7 +28,7 @@ describe('Home', () => {
 
   it('It has the basic home page text', () => {
     fixture.detectChanges();
-    expect(el.textContent).toContain("This is a home page! It doesn't do anything!");
+    expect(el.textContent).toContain('This is a home page! It doesn\'t do anything!');
   });
 
 });

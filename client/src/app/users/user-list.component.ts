@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { throwError } from 'rxjs';
 import { User, UserRole } from './user';
 import { UserService } from './user.service';
 
@@ -20,14 +22,12 @@ export class UserListComponent implements OnInit {
   public userCompany: string;
   public viewType: 'card' | 'list' = 'card';
 
-
   // Inject the UserService into this component.
   // That's what happens in the following constructor.
   //
   // We can call upon the service for interacting
   // with the server.
-
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private snackBar: MatSnackBar) {
 
   }
 
@@ -39,7 +39,23 @@ export class UserListComponent implements OnInit {
       this.serverFilteredUsers = returnedUsers;
       this.updateFilter();
     }, err => {
-      console.log(err);
+      // If there was an error getting the users, display
+      // a message.
+      this.snackBar.open(
+        'Problem contacting the server – try again',
+        'OK',
+        // The message will disappear after 3 seconds.
+        { duration: 3000 });
+      // I (Nic) feel like we should throw an error here, but
+      // I can't figure out how to test that at the moment,
+      // so I'm going to leave it out. If someone knows
+      // how to make this work that would be great.
+      //
+      // Now throw an error, which will show up in the browser
+      // JavaScript console and allow us to examine the stack
+      // trace.
+      //
+      // throw new Error('Failed to connect to the server: ' + err);
     });
   }
 

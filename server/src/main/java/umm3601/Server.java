@@ -23,26 +23,19 @@ public class Server {
 
     Javalin server = Javalin.create().start(4567);
 
-    // Simple example route
-    server.get("/hello", ctx -> ctx.result("Hello World"));
-
-    // Redirects to create simpler URLs
-    server.get("/users", ctx -> ctx.redirect("/users.html"));
-    server.get("/todos", ctx -> ctx.redirect("/todos.html"));
-
     // API endpoints
 
     // Get specific user
-    server.get("api/users/:id", ctx -> userController.getUser(ctx));
+    server.get("/api/users/:id", ctx -> userController.getUser(ctx));
 
     // List users, filtered using query parameters
-    server.get("api/users", ctx -> userController.getUsers(ctx));
+    server.get("/api/users", ctx -> userController.getUsers(ctx));
 
     // Get specific todo
-    server.get("api/todos/:id", ctx -> todoController.getTodo(ctx));
+    server.get("/api/todos/:id", ctx -> todoController.getTodo(ctx));
 
     // List todos, filtered using query parameters
-    server.get("api/todos", ctx -> todoController.getTodos(ctx));
+    server.get("/api/todos", ctx -> todoController.getTodos(ctx));
   }
 
   /**

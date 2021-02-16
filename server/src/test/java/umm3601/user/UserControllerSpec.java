@@ -130,14 +130,14 @@ public class UserControllerSpec {
 
   @Test
   public void GETRequestForUserWithExistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("588935f5c668650dc77df581", ""));
+    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("588935f5c668650dc77df581", "", "id"));
     userController.getUser(ctx);
     verify(ctx).status(201);
   }
 
   @Test
   public void GETRequestForUserWithNonexistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", ""));
+    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", "", "id"));
     Assertions.assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
     });

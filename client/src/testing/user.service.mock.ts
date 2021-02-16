@@ -43,8 +43,10 @@ export class MockUserService extends UserService {
     super(null);
   }
 
-  getUsers(filters: { role?: UserRole, age?: number, company?: string }): Observable<User[]> {
-    // Just return the test users regardless of what filters are passed in
+  getUsers(filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
+    // Our goal here isn't to test (and thus rewrite) the service, so we'll
+    // keep it simple and just return the test users regardless of what
+    // filters are passed in.
     return of(MockUserService.testUsers);
   }
 

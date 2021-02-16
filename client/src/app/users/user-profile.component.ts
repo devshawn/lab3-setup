@@ -10,10 +10,10 @@ import { UserService } from './user.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
-
   user: User;
   id: string;
+
+  constructor(private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
     // We subscribe to the parameter map here so we'll be notified whenever
