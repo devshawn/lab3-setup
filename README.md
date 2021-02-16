@@ -11,6 +11,7 @@
 - [Running your project](#running-your-project)
 - [Testing and Continuous Integration](#testing-and-continuous-integration)
   - [Testing the client](#testing-the-client)
+    - [Linting the client](#linting-the-client)
   - [Testing the server](#testing-the-server)
   - [End to end testing with Cypress](#end-to-end-testing-with-cypress)
   - [GitHub Actions](#github-actions)
@@ -72,7 +73,6 @@ Since this is the first time we will be using ESLint there is an additional step
 
 ![image](https://user-images.githubusercontent.com/1300395/107999308-bc59ec80-6fac-11eb-9784-75a471a50aa4.png)
 
-
 Click the red "ESLINT" to open this dialog:
 
 ![image](https://user-images.githubusercontent.com/1300395/107996971-528b1400-6fa7-11eb-89bc-afc71747f820.png)
@@ -109,6 +109,10 @@ From the `client` directory:
   * It generates a coverage report you can find in your client directory `client/coverage/client/index.html`.
   * Right click on `index.html` and select `Copy path` and paste it into your browser of choice. You can also drag and drop `index.html` onto the tab area of your browser and it will open it.
 
+#### Linting the client
+
+We have included a tool called ESLint which helps analyze the code and catch various errors. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint`. This will check the whole client project and tell you if there are any issues.
+
 ### Testing the server
 
 From the `server` directory:
@@ -121,7 +125,7 @@ From the `server` directory:
 
 End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client and server and how they interact by simulating what a real user would do with it.
 
-We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They area all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
+We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They are all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
 
 * `ng e2e` both builds and serves the client and runs through all the Cypress end-to-end tests once.
 * `ng e2e --watch` builds and serves the client but just opens Cypress for you to be able to run the tests you want without closing automatically.
@@ -135,11 +139,16 @@ You can click on any of the integration test files to run their tests or run the
 
 ![image](https://user-images.githubusercontent.com/1300395/107994642-acd5a600-6fa2-11eb-8b88-1f2879e82848.png)
 
-There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation below.
+There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Resources" section below.
 
 ### GitHub Actions
 
-There are GitHub Actions set up in your repo for each of the three checks: JUnit tests for the server, Karma tests for the client, and Cypress tests for end-to-end testing. There are badges above that show the status of these checks on the master branch.
+There are three GitHub Actions workflows set up in your repo: 
+- [Server Java](../../actions?query=workflow%3A"Server+Java") - JUnit tests for the server (`gradle-build`)
+- [Client Angular](../../actions?query=workflow%3A"Client+Angular") - Karma tests (`ng-test`) and ESLint linting (`ng-lint`) for the client
+- [End to End](../../actions?query=workflow%3AEnd-to-End) - Cypress tests for end-to-end testing
+
+There are badges above that show the status of these checks on the master branch.
 
 ## Resources
 
@@ -158,5 +167,4 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 - [Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
 - [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
 - [Interacting with Elements](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
-
 
