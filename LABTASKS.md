@@ -1,4 +1,13 @@
-# Lab Tasks
+# Lab Tasks <!-- omit in toc -->
+
+* [Notations](#notations)
+* [Exploring the client](#exploring-the-client)
+* [Todo API: Redux](#todo-api-redux)
+* [Writing (and testing) a beautiful client side application](#writing-and-testing-a-beautiful-client-side-application)
+* [Remember to test!](#remember-to-test)
+* [Questions](#questions)
+
+## Notations
 
 - Questions that you need to answer (as a team!) are indicated with question
   mark symbols (:question:)
