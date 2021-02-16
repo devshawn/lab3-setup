@@ -118,7 +118,7 @@ describe('UserService', () => {
         // Check that the role parameter was 'admin'
         expect(req.request.params.get('role')).toEqual('admin');
 
-        // req.flush(testUsers);
+        req.flush(testUsers);
       });
 
       it('correctly calls api/users with filter parameter \'age\'', () => {
