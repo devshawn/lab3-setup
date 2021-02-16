@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,11 +17,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { UserListComponent } from './users/user-list.component';
 import { HomeComponent } from './home/home.component';
@@ -46,7 +47,8 @@ const MATERIAL_MODULES: any[] = [
   MatOptionModule,
   MatFormFieldModule,
   MatDividerModule,
-  MatRadioModule
+  MatRadioModule,
+  MatSnackBarModule
 ];
 
 @NgModule({
