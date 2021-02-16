@@ -121,7 +121,7 @@ From the `server` directory:
 
 End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client and server and how they interact by simulating what a real user would do with it.
 
-We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They area all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
+We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They are all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
 
 * `ng e2e` both builds and serves the client and runs through all the Cypress end-to-end tests once.
 * `ng e2e --watch` builds and serves the client but just opens Cypress for you to be able to run the tests you want without closing automatically.
@@ -135,7 +135,7 @@ You can click on any of the integration test files to run their tests or run the
 
 ![image](https://user-images.githubusercontent.com/1300395/107994642-acd5a600-6fa2-11eb-8b88-1f2879e82848.png)
 
-There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation below.
+There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Resources" section below.
 
 ### GitHub Actions
 
@@ -158,5 +158,4 @@ There are GitHub Actions set up in your repo for each of the three checks: JUnit
 - [Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
 - [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Can-Be-Simple-Sometimes)
 - [Interacting with Elements](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html#Actionability)
-
 
