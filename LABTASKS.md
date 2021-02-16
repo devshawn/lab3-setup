@@ -20,8 +20,13 @@ what the answer to a question is, etc.
 The client side of our project has changed since lab #2. The directory structure is
 mostly the same, but the client-side interface uses Angular to handle most of the creation
 of the elements of the user interface. Angular's template syntax extends HTML and JavaScript.
-The testing is handled in two new places (Angular spec files for testing Angular
-and E2E tests) with new tools (Jasmine/Karma and Cypress).
+The testing is handled in two new places:
+
+* Angular spec files (e.g., `user-list.component.spec.ts`) for unit
+  testing in Angular. These use Jasmine and Karma.
+* E2E (end-to-end) tests in `client/e2e`. These use Cypress.
+
+![Location of testing code](https://user-images.githubusercontent.com/302297/108024936-25605500-6feb-11eb-87e5-829d4e9de44a.png)
 
 The starting code includes several interesting
 ways of using Angular components to display user data.
@@ -33,17 +38,17 @@ The user-card component is also used (in a slightly different way) in the user-p
 Karma tests for each component are named
 almost the same as the component but include `.spec` before the `.ts`,
 and Cypress E2E tests for user-list
-are located in `cypress/integrations` inside the `client` folder.
+are located in `client/cypress/integrations`.
 
 :question: Answer questions 1 and 2 in [QUESTIONS](#questions).
 
 ## Todo API: Redux
 
 In Lab 2, you worked with your partner to implement an API for requesting
-'to-dos' from a server. In this lab, you'll be using a to-do API provided
-with the lab. The API meets the specifications of lab 2 and
+'to-dos' from a server. In this lab, you'll be using a to-do API that we provide
+for you with the lab. The API meets the specifications of lab 2 and
 can be found at `localhost:4567/api/todos` when you are running your server
-(go into the server directory and execute `./gradlew run`)
+(go into the server directory and execute `./gradlew run`).
 
 ## Writing (and testing) a beautiful client side application
 
@@ -71,22 +76,24 @@ this data.
 
 ## Remember to test!
 
-Your project should have tests, specifically Karma Angular (client-side) tests that help you meaningfully practice using continuous integration. You should expand on these tests as
-appropriate so that your GitHub Actions checks are telling you something about the health of your project.
+Your project should have tests
+that help you meaningfully practice using continuous integration. You should expand on these tests as
+appropriate so that your GitHub Actions checks are telling you valuable things
+about the health of your project.
 
 - As you work, create a branch for a new feature,
   write unit tests for the new Angular components you are adding and using (Karma),
   write new end-to-end tests for the new views (Cypress),
   and address failing builds.
-- Use pull requests or work together with your lab partner to
+- Use pull requests to review code and
   merge things into master when a feature is working
   and is tested (with passing tests and decent coverage).
 
-:bangbang: A big part of this lab are the end-to-end (E2E) tests
-(also known as acceptance tests,
-or behavioral tests, or functional tests, or integration tests) which you should
-expand to cover all the
-key behaviors in your project.
+In general you'll want to write unit tests (using Karma) for small, focus
+bits of logic, often in an Angular service, but sometimes in a component.
+
+E2E tests, on the other hand, are typically used to capture the desired
+behavior of specific features or stories.
 
 :question: Answer question 4 about your E2E tests in [QUESTIONS](#questions)
 
@@ -102,4 +109,4 @@ key behaviors in your project.
    2. :question: What is one thing you filtered using the server and why did that approach make sense for that filter?
 1. :question: What behaviors did you test via your E2E tests? For each behavior:
    1. :question: Why did you test that particular behavior?
-   2. :question: What is the "it" for that test? (You don't need to tell how the test works since your code will do that)
+   2. :question: What is the "it" for that test? (You don't need to tell us how the test _works_ since your code will do that.)
