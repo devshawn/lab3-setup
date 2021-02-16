@@ -1,11 +1,11 @@
 # Lab Tasks <!-- omit in toc -->
 
-* [Notations](#notations)
-* [Exploring the client](#exploring-the-client)
-* [Todo API: Redux](#todo-api-redux)
-* [Writing (and testing) a beautiful client side application](#writing-and-testing-a-beautiful-client-side-application)
-* [Remember to test!](#remember-to-test)
-* [Questions](#questions)
+- [Notations](#notations)
+- [Exploring the client](#exploring-the-client)
+- [Todo API: Redux](#todo-api-redux)
+- [Writing (and testing) a beautiful client side application](#writing-and-testing-a-beautiful-client-side-application)
+- [Remember to test!](#remember-to-test)
+- [Questions](#questions)
 
 ## Notations
 
@@ -31,9 +31,9 @@ mostly the same, but the client-side interface uses Angular to handle most of th
 of the elements of the user interface. Angular's template syntax extends HTML and JavaScript.
 The testing is handled in two new places:
 
-* Angular spec files (e.g., `user-list.component.spec.ts`) for unit
+- Angular spec files (e.g., `user-list.component.spec.ts`) for unit
   testing in Angular. These use Jasmine and Karma.
-* E2E (end-to-end) tests in `client/e2e`. These use Cypress.
+- E2E (end-to-end) tests in `client/e2e`. These use Cypress.
 
 ![Location of testing code](https://user-images.githubusercontent.com/302297/108024936-25605500-6feb-11eb-87e5-829d4e9de44a.png)
 
@@ -49,7 +49,7 @@ almost the same as the component but include `.spec` before the `.ts`,
 and Cypress E2E tests for user-list
 are located in `client/cypress/integrations`.
 
-:question: Answer questions 1 and 2 in [QUESTIONS](#questions).
+:question: Answer questions 1 through 4 in [QUESTIONS](#questions) below.
 
 ## Todo API: Redux
 
@@ -81,7 +81,7 @@ this data.
   - You have to use the server's filtering at least once
   - :question: Make note of why you choose to do each of those two things the way you did
 
-:question: Answer question 3 about your filtering in [QUESTIONS](#questions)
+:question: Answer Question 5 about your filtering in [QUESTIONS](#questions)
 
 ## Remember to test!
 
@@ -104,18 +104,42 @@ bits of logic, often in an Angular service, but sometimes in a component.
 E2E tests, on the other hand, are typically used to capture the desired
 behavior of specific features or stories.
 
-:question: Answer question 4 about your E2E tests in [QUESTIONS](#questions)
+:question: Answer Questions 6 and 7 about your Karma and E2E tests in [QUESTIONS](#questions)
 
 ## Questions
 
 1. :question: How does the navigation menu (with Home and Users) work in this project? Compare `server/src/main/java/umm3601/Server.java`
-   and `client/src/app/app-routing.module.ts`. Both do a kind of routing; what does each accomplish and how?
-1. :question: What does the `user.service.ts` do? Why is it not just done in
+   and `client/src/app/app-routing.module.ts`. Both do a kind of routing that maps
+   a "path" to something that "handles" that path.
+   - What are the "paths" in each case? (Be specific.)
+   - Trace through an example of a path being handled by both Angular and Javalin.
+     - Where does the "path" come from? As a user, how might I enter or trigger a particular path?
+     - What kinds of things to Angular and Javalin map their paths _to_? (Be specific.)
+     - What do those targets "do" with that path?
+2. :question: What does the `user.service.ts` do? Why is it not just done in
    the `user-list.component.ts`?
-1. You need to use filtering in Angular and filtering on the server each at least one time.
-   Our example filters users by _company_ on the client side in Angular and filters users by _role_ on the server side in Java.
+3. Look over the the test for calling `getUsers()` with an `age` parameters in `client/src/app/users/user.service.spec.ts`.
+   1. :question: Where do we tell the service that we want only users with age 25?
+   1. :question: Where do we tell the mock HTTP system how many requests to expect and what
+     parameters those requests should have?
+   1. :question: Where do we specify the expected HTTP request type (PUT or GET or DELETE or whatever)?
+   1. :question: Where do we specify what value the mock HTTP system should return in response
+     to the expected request.
+4. Look over the E2E test for testing the age filtering in `client/cypress/integration/user-list.spec.ts`.
+   1. :question: What is the `page` object? Where is that defined?
+   1. :question: Where do we enter the value 27 in the age field?
+      1. :question: How does Cypress find the age field?
+      1. :question: How does Cypress update the value in the age field?
+   1. :question: How does Cypress get all the cards on this page? (Hint: Look at the definition of `getUserCards()` in `client/cypress/support/user-list.po.ts`.)
+   1. How does Cypress extract the user's names from the cards?
+5. You need to use filtering in Angular and filtering on the server each at least one time. Our example filters users by _company_ on the client side in Angular and filters users by _role_ on the server side in Java.
    1. :question: What is one thing you filtered in Angular and why did that approach make sense for that filter?
    2. :question: What is one thing you filtered using the server and why did that approach make sense for that filter?
-1. :question: What behaviors did you test via your E2E tests? For each behavior:
+6. :question: What's _one_ piece of "internal" functionality that you chose to
+   write a unit test (with Karma) for?
+   1. :question: Why did you choose to test that piece of functionality?
+   2. :question: What is the "it" for that test, i.e., what Angular tool/method are you testing?
+7. :question: List the behaviors you tested via your E2E tests? For each behavior:
    1. :question: Why did you test that particular behavior?
-   2. :question: What is the "it" for that test? (You don't need to tell us how the test _works_ since your code will do that.)
+   2. :question: What is the "it" for that test, i.e., what part of the web app are you
+      testing? (You don't need to tell us how the test _works_ since your code will do that.)
