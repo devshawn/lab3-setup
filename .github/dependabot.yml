@@ -6,7 +6,7 @@ updates:
     interval: monthly
     time: "12:00"
     timezone: America/Chicago
-  open-pull-requests-limit: 20
+  open-pull-requests-limit: 50
   ignore:
   - dependency-name: org.mockito:mockito-core
     versions:
@@ -35,7 +35,7 @@ updates:
     interval: monthly
     time: "12:00"
     timezone: America/Chicago
-  open-pull-requests-limit: 20
+  open-pull-requests-limit: 50
   ignore:
   - dependency-name: "@angular/cli"
     versions:
