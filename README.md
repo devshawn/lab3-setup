@@ -1,8 +1,8 @@
 # CSCI 3601 Lab #3 - Angular and Spark Lab <!-- omit in toc -->
 
-[![Server Build Status](../../workflows/Server%20Java/badge.svg?branch=master)](../../actions?query=workflow%3A"Server+Java")
-[![Client Build Status](../../workflows/Client%20Angular/badge.svg?branch=master)](../../actions?query=workflow%3A"Client+Angular")
-[![End to End Build Status](../../workflows/End-to-End/badge.svg?branch=master)](../../actions?query=workflow%3AEnd-to-End)
+[![Server Build Status](../../actions/workflows/server-gradle.yml/badge.svg)](../../actions/workflows/server-gradle.yml)
+[![Client Build Status](../../actions/workflows/client-angular.yaml/badge.svg)](../../actions/workflows/client-angular.yaml)
+[![End to End Build Status](../../actions/workflows/e2e.yaml/badge.svg)](../../actions/workflows/e2e.yaml)
 
 * [Setup](#setup)
   * [Open the project in VS Code](#open-the-project-in-vs-code)
