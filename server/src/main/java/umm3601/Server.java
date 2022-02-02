@@ -26,13 +26,13 @@ public class Server {
     // API endpoints
 
     // Get specific user
-    server.get("/api/users/:id", ctx -> userController.getUser(ctx));
+    server.get("/api/users/{id}", ctx -> userController.getUser(ctx));
 
     // List users, filtered using query parameters
     server.get("/api/users", ctx -> userController.getUsers(ctx));
 
     // Get specific todo
-    server.get("/api/todos/:id", ctx -> todoController.getTodo(ctx));
+    server.get("/api/todos/{id}", ctx -> todoController.getTodo(ctx));
 
     // List todos, filtered using query parameters
     server.get("/api/todos", ctx -> todoController.getTodos(ctx));
