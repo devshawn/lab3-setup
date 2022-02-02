@@ -29,7 +29,7 @@ public class TodoController{
    * @param ctx a Javalin HTTP context
    */
   public void getTodo(Context ctx) {
-    String id = ctx.pathParam("id", String.class).get();
+    String id = ctx.pathParam("id");
     Todo todo = todoDatabase.getTodo(id);
     if (todo != null) {
       ctx.json(todo);
