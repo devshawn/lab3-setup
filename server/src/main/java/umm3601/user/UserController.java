@@ -29,7 +29,7 @@ public class UserController {
    * @param ctx a Javalin HTTP context
    */
   public void getUser(Context ctx) {
-    String id = ctx.pathParam("id", String.class).get();
+    String id = ctx.pathParam("id");
     User user = userDatabase.getUser(id);
     if (user != null) {
       ctx.json(user);

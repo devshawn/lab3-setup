@@ -127,14 +127,14 @@ public class TodoControllerSpec {
 
   @Test
   public void GETRequestForTodoWithExistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("58895985a22c04e761776d54", "", "id"));
+    when(ctx.pathParam("id")).thenReturn("58895985a22c04e761776d54");
     todoController.getTodo(ctx);
     verify(ctx).status(201);
   }
 
   @Test
   public void GETRequestForTodoWithNonexistentId() throws IOException {
-    when(ctx.pathParam("id", String.class)).thenReturn(new Validator<String>("nonexistent", "", "id"));
+    when(ctx.pathParam("id")).thenReturn("nonexistent");
     Assertions.assertThrows(NotFoundResponse.class, () -> {
       todoController.getTodo(ctx);
     });
