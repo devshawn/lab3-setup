@@ -6,14 +6,10 @@ import { User } from './user';
   templateUrl: './user-card.component.html',
   styleUrls: ['./user-card.component.scss']
 })
-export class UserCardComponent implements OnInit {
+export class UserCardComponent {
 
   @Input() user: User;
   @Input() simple?: boolean = false;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
