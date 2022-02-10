@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.javalin.http.BadRequestResponse;
 
@@ -23,10 +23,9 @@ public class TodoDatabase {
   private Todo[] allTodos;
 
   public TodoDatabase(String todoDataFile) throws IOException {
-    Gson gson = new Gson();
     InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(todoDataFile));
-    allTodos = gson.fromJson(reader, Todo[].class);
-    reader.close();
+    ObjectMapper objectMapper = new ObjectMapper();
+    allTodos = objectMapper.readValue(reader, Todo[].class);
   }
 
   public int size() {
