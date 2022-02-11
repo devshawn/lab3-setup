@@ -10,10 +10,9 @@ import umm3601.todo.TodoController;
 
 public class Server {
 
+  private static final int PORT_NUMBER = 4567;
   public static final String USER_DATA_FILE = "/users.json";
   public static final String TODO_DATA_FILE = "/todos.json";
-  private static UserDatabase userDatabase;
-  private static TodoDatabase todoDatabase;
 
   public static void main(String[] args) {
 
@@ -21,7 +20,7 @@ public class Server {
     UserController userController = buildUserController();
     TodoController todoController = buildTodoController();
 
-    Javalin server = Javalin.create().start(4567);
+    Javalin server = Javalin.create().start(PORT_NUMBER);
 
     // API endpoints
 
@@ -50,7 +49,7 @@ public class Server {
     UserController userController = null;
 
     try {
-      userDatabase = new UserDatabase(USER_DATA_FILE);
+      UserDatabase userDatabase = new UserDatabase(USER_DATA_FILE);
       userController = new UserController(userDatabase);
     } catch (IOException e) {
       System.err.println("The server failed to load the user data; shutting down.");
@@ -75,7 +74,7 @@ public class Server {
     TodoController todoController = null;
 
     try {
-      todoDatabase = new TodoDatabase(TODO_DATA_FILE);
+      TodoDatabase todoDatabase = new TodoDatabase(TODO_DATA_FILE);
       todoController = new TodoController(todoDatabase);
     } catch (IOException e) {
       System.err.println("The server failed to load the todo data; shutting down.");

@@ -101,7 +101,7 @@ public class TodoDatabase {
    *         status
    */
   public Todo[] filterTodosByStatus(Todo[] todos, String targetStatus) {
-    switch(targetStatus.toLowerCase()) {
+    switch (targetStatus.toLowerCase()) {
       case "complete":
         return Arrays.stream(todos).filter(x -> x.status).toArray(Todo[]::new);
       case "incomplete":
@@ -120,7 +120,10 @@ public class TodoDatabase {
    *         body
    */
   public Todo[] filterTodosByBody(Todo[] todos, String targetBody) {
-    return Arrays.stream(todos).filter(x -> x.body.toLowerCase().contains(targetBody.toLowerCase())).toArray(Todo[]::new);
+    return Arrays
+        .stream(todos)
+        .filter(todo -> todo.body.toLowerCase().contains(targetBody.toLowerCase()))
+        .toArray(Todo[]::new);
   }
 
   /**
@@ -132,7 +135,10 @@ public class TodoDatabase {
    *         body
    */
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
-    return Arrays.stream(todos).filter(x -> x.owner.toLowerCase().equals(targetOwner.toLowerCase())).toArray(Todo[]::new);
+    return Arrays
+        .stream(todos)
+        .filter(todo -> todo.owner.toLowerCase().equals(targetOwner.toLowerCase()))
+        .toArray(Todo[]::new);
   }
 
   /**
@@ -144,7 +150,10 @@ public class TodoDatabase {
    *         category
    */
   public Todo[] filterTodosByCategory(Todo[] todos, String targetCategory) {
-    return Arrays.stream(todos).filter(x -> x.category.toLowerCase().equals(targetCategory.toLowerCase())).toArray(Todo[]::new);
+    return Arrays
+        .stream(todos)
+        .filter(todo -> todo.category.toLowerCase().equals(targetCategory.toLowerCase()))
+        .toArray(Todo[]::new);
   }
 
   /**
@@ -155,7 +164,7 @@ public class TodoDatabase {
    * @return an array of all the todos from the given list sorted in the given order
    */
   public Todo[] sortTodos(Todo[] todos, String targetOrder) {
-    switch(targetOrder) {
+    switch (targetOrder) {
       case "owner":
         return Arrays.stream(todos).sorted((x, y) -> x.owner.compareTo(y.owner)).toArray(Todo[]::new);
       case "body":
