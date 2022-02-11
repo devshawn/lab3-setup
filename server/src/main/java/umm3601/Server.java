@@ -3,6 +3,7 @@ package umm3601;
 import java.io.IOException;
 
 import io.javalin.Javalin;
+import io.javalin.core.util.RouteOverviewPlugin;
 import umm3601.user.UserDatabase;
 import umm3601.user.UserController;
 import umm3601.todo.TodoDatabase;
@@ -21,7 +22,14 @@ public class Server {
     UserController userController = buildUserController();
     TodoController todoController = buildTodoController();
 
-    Javalin server = Javalin.create().start(4567);
+    Javalin server = Javalin.create(
+      config -> {
+        // This sets things up so that the path "/api" will
+        // return an overview of the various paths that this
+        // Javalin server supports.
+        config.registerPlugin(new RouteOverviewPlugin("/api"));
+      }
+    ).start(4567);
 
     // API endpoints
 
