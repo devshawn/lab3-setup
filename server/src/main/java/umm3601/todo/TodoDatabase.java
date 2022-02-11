@@ -20,6 +20,9 @@ import io.javalin.http.BadRequestResponse;
  */
 public class TodoDatabase {
 
+  private static final String OWNER = "owner";
+  private static final String STATUS = "status";
+  private static final String CATEGORY = "category";
   private Todo[] allTodos;
 
   public TodoDatabase(String todoDataFile) throws IOException {
@@ -54,8 +57,8 @@ public class TodoDatabase {
     Todo[] filteredTodos = allTodos;
 
     // Filter status if defined
-    if (queryParams.containsKey("status")) {
-      String targetStatus = queryParams.get("status").get(0);
+    if (queryParams.containsKey(STATUS)) {
+      String targetStatus = queryParams.get(STATUS).get(0);
       filteredTodos = filterTodosByStatus(filteredTodos, targetStatus);
     }
     // Filter body if defined
@@ -64,13 +67,13 @@ public class TodoDatabase {
       filteredTodos = filterTodosByBody(filteredTodos, targetBody);
     }
     // Filter owner if defined
-    if (queryParams.containsKey("owner")) {
-      String targetOwner = queryParams.get("owner").get(0);
+    if (queryParams.containsKey(OWNER)) {
+      String targetOwner = queryParams.get(OWNER).get(0);
       filteredTodos = filterTodosByOwner(filteredTodos, targetOwner);
     }
     // Filter category if defined
-    if (queryParams.containsKey("category")) {
-      String targetCategory = queryParams.get("category").get(0);
+    if (queryParams.containsKey(CATEGORY)) {
+      String targetCategory = queryParams.get(CATEGORY).get(0);
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
     }
     // Sort todo with specific order if defined
@@ -137,7 +140,7 @@ public class TodoDatabase {
   public Todo[] filterTodosByOwner(Todo[] todos, String targetOwner) {
     return Arrays
         .stream(todos)
-        .filter(todo -> todo.owner.toLowerCase().equals(targetOwner.toLowerCase()))
+        .filter(todo -> todo.owner.equalsIgnoreCase(targetOwner.toLowerCase()))
         .toArray(Todo[]::new);
   }
 
@@ -152,7 +155,7 @@ public class TodoDatabase {
   public Todo[] filterTodosByCategory(Todo[] todos, String targetCategory) {
     return Arrays
         .stream(todos)
-        .filter(todo -> todo.category.toLowerCase().equals(targetCategory.toLowerCase()))
+        .filter(todo -> todo.category.equalsIgnoreCase(targetCategory.toLowerCase()))
         .toArray(Todo[]::new);
   }
 
@@ -165,13 +168,13 @@ public class TodoDatabase {
    */
   public Todo[] sortTodos(Todo[] todos, String targetOrder) {
     switch (targetOrder) {
-      case "owner":
+      case OWNER:
         return Arrays.stream(todos).sorted((x, y) -> x.owner.compareTo(y.owner)).toArray(Todo[]::new);
       case "body":
         return Arrays.stream(todos).sorted((x, y) -> x.body.compareTo(y.body)).toArray(Todo[]::new);
-      case "status":
+      case STATUS:
         return Arrays.stream(todos).sorted((x, y) -> Boolean.compare(x.status, y.status)).toArray(Todo[]::new);
-      case "category":
+      case CATEGORY:
         return Arrays.stream(todos).sorted((x, y) -> x.category.compareTo(y.category)).toArray(Todo[]::new);
       default:
         throw new BadRequestResponse("Specified order '" + targetOrder + "' is not an applicable todo attribute");
