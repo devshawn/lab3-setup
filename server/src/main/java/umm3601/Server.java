@@ -3,6 +3,8 @@ package umm3601;
 import java.io.IOException;
 
 import io.javalin.Javalin;
+import io.javalin.core.util.RouteOverviewPlugin;
+import io.javalin.http.InternalServerErrorResponse;
 import umm3601.user.UserDatabase;
 import umm3601.user.UserController;
 import umm3601.todo.TodoDatabase;
@@ -20,7 +22,14 @@ public class Server {
     UserController userController = buildUserController();
     TodoController todoController = buildTodoController();
 
-    Javalin server = Javalin.create().start(PORT_NUMBER);
+    Javalin server = Javalin.create(
+      config -> {
+        // This sets things up so that the path "/api" will
+        // return an overview of the various paths that this
+        // Javalin server supports.
+        config.registerPlugin(new RouteOverviewPlugin("/api"));
+      }
+    ).start(PORT_NUMBER);
 
     // API endpoints
 
@@ -35,6 +44,19 @@ public class Server {
 
     // List todos, filtered using query parameters
     server.get("/api/todos", todoController::getTodos);
+
+    // This catches any uncaught exceptions thrown in the server
+    // code and turns them into a 500 response ("Internal Server
+    // Error Response"). In general you'll like to *never* actually
+    // return this, as it's an instance of the server crashing in
+    // some way, and returning a 500 to your user is *super*
+    // unhelpful to them. In a production system you'd almost
+    // certainly want to use a logging library to log all errors
+    // caught here so you'd know about them and could try to address
+    // them.
+    server.exception(Exception.class, (e, ctx) -> {
+      throw new InternalServerErrorResponse(e.toString());
+    });
   }
 
   /**
