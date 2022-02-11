@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import io.javalin.Javalin;
 import io.javalin.core.util.RouteOverviewPlugin;
+import io.javalin.http.InternalServerErrorResponse;
 import umm3601.user.UserDatabase;
 import umm3601.user.UserController;
 import umm3601.todo.TodoDatabase;
