@@ -12,10 +12,9 @@ import umm3601.todo.TodoController;
 
 public class Server {
 
+  private static final int PORT_NUMBER = 4567;
   public static final String USER_DATA_FILE = "/users.json";
   public static final String TODO_DATA_FILE = "/todos.json";
-  private static UserDatabase userDatabase;
-  private static TodoDatabase todoDatabase;
 
   public static void main(String[] args) {
 
@@ -30,7 +29,7 @@ public class Server {
         // Javalin server supports.
         config.registerPlugin(new RouteOverviewPlugin("/api"));
       }
-    ).start(4567);
+    ).start(PORT_NUMBER);
 
     // API endpoints
 
@@ -45,7 +44,7 @@ public class Server {
 
     // List todos, filtered using query parameters
     server.get("/api/todos", todoController::getTodos);
-    
+
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
     // Error Response"). In general you'll like to *never* actually
@@ -72,7 +71,7 @@ public class Server {
     UserController userController = null;
 
     try {
-      userDatabase = new UserDatabase(USER_DATA_FILE);
+      UserDatabase userDatabase = new UserDatabase(USER_DATA_FILE);
       userController = new UserController(userDatabase);
     } catch (IOException e) {
       System.err.println("The server failed to load the user data; shutting down.");
@@ -97,7 +96,7 @@ public class Server {
     TodoController todoController = null;
 
     try {
-      todoDatabase = new TodoDatabase(TODO_DATA_FILE);
+      TodoDatabase todoDatabase = new TodoDatabase(TODO_DATA_FILE);
       todoController = new TodoController(todoDatabase);
     } catch (IOException e) {
       System.err.println("The server failed to load the todo data; shutting down.");
