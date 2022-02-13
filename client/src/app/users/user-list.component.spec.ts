@@ -46,24 +46,23 @@ let userList: UserListComponent;
 // above) that will be used throughout the tests.
 // This is called in a `beforeEach()` in each of the
 // `describe()` sections below.
-const setupUserList = () =>
+async function setUpUserList() {
   // Compile all the components in the test bed
   // so that everything's "ready to go".
-  TestBed.compileComponents().then(() => {
-    // Create a "fixture" of the UserListComponent. that
-    // allows us to get an instance of the component
-    // (userList, below) that we can "control" in
-    // the tests.
-    const fixture = TestBed.createComponent(UserListComponent);
-    userList = fixture.componentInstance;
-    // Tells Angular to "sync" the data bindings between
-    // the model and the DOM. This ensures, e.g., that the
-    // `userList` component actually requests the list
-    // of users from the `MockUserService` so that it's
-    // "up to date" before we start running tests on it.
-    // fixture.detectChanges();
-    fixture.detectChanges();
-  });
+  await TestBed.compileComponents();
+  // Create a "fixture" of the UserListComponent. That
+  // allows us to get an instance of the component
+  // (userList, below) that we can control in
+  // the tests.
+  const fixture = TestBed.createComponent(UserListComponent);
+  userList = fixture.componentInstance;
+  // Tells Angular to "sync" the data bindings between
+  // the model and the DOM. This ensures, e.g., that the
+  // `userList` component actually requests the list
+  // of users from the `MockUserService` so that it's
+  // up to date before we start running tests on it.
+  fixture.detectChanges();
+}
 
 describe('UserListComponent', () => {
 
