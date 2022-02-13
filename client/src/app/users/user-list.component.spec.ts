@@ -46,7 +46,7 @@ let userList: UserListComponent;
 // above) that will be used throughout the tests.
 // This is called in a `beforeEach()` in each of the
 // `describe()` sections below.
-async function setUpUserList() {
+const setUpUserList = async () => {
   // Compile all the components in the test bed
   // so that everything's "ready to go".
   await TestBed.compileComponents();
@@ -62,7 +62,7 @@ async function setUpUserList() {
   // of users from the `MockUserService` so that it's
   // up to date before we start running tests on it.
   fixture.detectChanges();
-}
+};
 
 describe('UserListComponent', () => {
 
