@@ -66,11 +66,11 @@ async function setUpUserList() {
 
 describe('UserListComponent', () => {
 
-  // Set up the `TestBed` so that it "knows" that we're using
-  // a `MockUserService` in place of the "real" `UserService`
+  // Set up the `TestBed` so that it uses
+  // a `MockUserService` in place of the real `UserService`
   // for the purposes of the testing. We also have to include
   // the relevant imports and declarations so that the tests
-  // can "find" all the necessary parts.
+  // can find all the necessary parts.
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
@@ -84,7 +84,7 @@ describe('UserListComponent', () => {
 
   // Construct the `userList` used for the testing in the `it` statements
   // below.
-  beforeEach(waitForAsync(setupUserList));
+  beforeEach(waitForAsync(setUpUserList));
 
   it('contains all the users', () => {
     expect(userList.serverFilteredUsers.length).toBe(3);
@@ -146,7 +146,7 @@ describe('Misbehaving User List', () => {
 
   // Construct the `userList` used for the testing in the `it` statement
   // below.
-  beforeEach(waitForAsync(setupUserList));
+  beforeEach(waitForAsync(setUpUserList));
 
   it('fails to load users if we do not set up a UserListService', () => {
     // Since calling both getUsers() and getUsersFiltered() return
