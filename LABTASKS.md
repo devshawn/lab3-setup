@@ -4,7 +4,7 @@
 - [Exploring the client](#exploring-the-client)
 - [Todo API: Redux](#todo-api-redux)
 - [Writing (and testing) a beautiful client side application](#writing-and-testing-a-beautiful-client-side-application)
-- [Remember to test!](#remember-to-test)
+- [Remember to test](#remember-to-test)
 - [Questions](#questions)
 
 ## Notations
@@ -83,7 +83,7 @@ this data.
 
 :question: Answer Question 5 about your filtering in [QUESTIONS](#questions)
 
-## Remember to test!
+## Remember to test
 
 Your project should have tests
 that help you meaningfully practice using continuous integration. You should expand on these tests as
