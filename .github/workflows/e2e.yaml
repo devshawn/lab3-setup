@@ -11,6 +11,14 @@ jobs:
 
     - name: Cache Gradle artifacts (downloaded JARs, the wrapper, and any downloaded JDKs)
       uses: actions/setup-node@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          ~/.gradle/jdks
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/.gradle/') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
     - name: Use Node.js 18
       uses: actions/setup-node@v3
