@@ -7,20 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      uses: actions/setup-node@v3
 
     - name: Use Node.js 18
       uses: actions/setup-node@v3
       with:
         node-version: 18
+        cache: 'npm'
 
     - name: Install dependencies (npm ci)
       run: npm ci
@@ -35,10 +31,10 @@ jobs:
   ng-lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Cache node modules
-      uses: actions/cache@v2
+      uses: actions/setup-node@v3
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -48,7 +44,7 @@ jobs:
     - name: Use Node.js 18
       uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18
 
     - name: Install dependencies (npm ci)
       run: npm ci
