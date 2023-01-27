@@ -21,9 +21,9 @@ jobs:
           ${{ runner.os }}-gradle-
 
     - name: Use Node.js 18
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18
 
     - name: Run e2e tests
       uses: cypress-io/github-action@v2

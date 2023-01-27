@@ -18,9 +18,9 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Use Node.js 18
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: 18
 
     - name: Install dependencies (npm ci)
       run: npm ci
@@ -46,7 +46,7 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Use Node.js 18
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '18'
 
