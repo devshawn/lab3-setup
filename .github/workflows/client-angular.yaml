@@ -9,11 +9,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js 18
-      working-directory: ./client
+
       uses: actions/setup-node@v3
       with:
         node-version: '18'
         cache: 'npm'
+        cache-directory-path: ./client/package-lock.json
 
     - name: Install dependencies (npm ci)
       run: npm ci
@@ -32,10 +33,11 @@ jobs:
 
     - name: Use Node.js 18
       uses: actions/setup-node@v3
-      working-directory: ./client
+
       with:
         node-version: '18'
         cache: 'npm'
+        cache-directory-path: ./client/package-lock.json
 
     - name: Install dependencies (npm ci)
       run: npm ci
