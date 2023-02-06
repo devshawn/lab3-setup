@@ -61,10 +61,15 @@ public class UserControllerSpec {
 
   @Test
   public void canGetUsersWithAge25() throws IOException {
+    // Add a query param map to the context that maps "age"
+    // to "25".
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("age", Arrays.asList(new String[] {"25"}));
-
     when(ctx.queryParamMap()).thenReturn(queryParams);
+
+    // Call the method on the mock controller with the added
+    // query param map to limit the result to just users with
+    // age 25.
     userController.getUsers(ctx);
 
     // Confirm that all the users passed to `json` have age 25.
@@ -73,6 +78,8 @@ public class UserControllerSpec {
     for (User user : argument.getValue()) {
       assertEquals(25, user.age);
     }
+    // Confirm that there are 2 users with age 25
+    assertEquals(2, argument.getValue().length);
   }
 
   /**
@@ -86,13 +93,14 @@ public class UserControllerSpec {
     // that can't be parsed to a number.
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("age", Arrays.asList(new String[] {"abc"}));
-
     when(ctx.queryParamMap()).thenReturn(queryParams);
+
     // This should now throw a `BadRequestResponse` exception because
     // our request has an age that can't be parsed to a number.
-    Assertions.assertThrows(BadRequestResponse.class, () -> {
+    Throwable exception = Assertions.assertThrows(BadRequestResponse.class, () -> {
       userController.getUsers(ctx);
     });
+    assertEquals("Specified age '" + "abc" + "' can't be parsed to an integer", exception.getMessage());
   }
 
   @Test
@@ -117,10 +125,9 @@ public class UserControllerSpec {
 
     Map<String, List<String>> queryParams = new HashMap<>();
     queryParams.put("company", Arrays.asList(new String[] {"OHMNET"}));
-
     queryParams.put("age", Arrays.asList(new String[] {"25"}));
-
     when(ctx.queryParamMap()).thenReturn(queryParams);
+
     userController.getUsers(ctx);
 
     // Confirm that all the users passed to `json` work for OHMNET
@@ -131,21 +138,29 @@ public class UserControllerSpec {
       assertEquals(25, user.age);
       assertEquals("OHMNET", user.company);
     }
+    assertEquals(1, argument.getValue().length);
   }
 
   @Test
   public void canGetUserWithSpecifiedId() throws IOException {
-    when(ctx.pathParam("id")).thenReturn("588935f5c668650dc77df581");
+    String id = "588935f5c668650dc77df581";
+    User user = db.getUser(id);
+
+    when(ctx.pathParam("id")).thenReturn(id);
+
     userController.getUser(ctx);
-    verify(ctx).status(HttpCode.OK);
+
+    verify(ctx).json(user);
     verify(ctx).status(HttpStatus.OK);
+    assertEquals("Cervantes Morin", user.name);
   }
 
   @Test
   public void respondsAppropriatelyToRequestForNonexistentId() throws IOException {
-    when(ctx.pathParam("id")).thenReturn("nonexistent");
-    Assertions.assertThrows(NotFoundResponse.class, () -> {
+    when(ctx.pathParam("id")).thenReturn(null);
+    Throwable exception = Assertions.assertThrows(NotFoundResponse.class, () -> {
       userController.getUser(ctx);
     });
+    assertEquals("No user with id " + null + " was found.", exception.getMessage());
   }
 }

@@ -12,7 +12,7 @@ import umm3601.todo.TodoController;
 
 public class Server {
 
-  private static final int PORT_NUMBER = 4567;
+  private static final int SERVER_PORT = 4567;
   public static final String USER_DATA_FILE = "/users.json";
   public static final String TODO_DATA_FILE = "/todos.json";
 
@@ -29,7 +29,7 @@ public class Server {
         // Javalin server supports.
         config.plugins.register(new RouteOverviewPlugin("/api"));
       }
-    ).start(PORT_NUMBER);
+    ).start(SERVER_PORT);
 
     // API endpoints
 
