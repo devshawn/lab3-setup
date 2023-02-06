@@ -3,7 +3,7 @@ package umm3601;
 import java.io.IOException;
 
 import io.javalin.Javalin;
-import io.javalin.core.util.RouteOverviewPlugin;
+import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
 import umm3601.user.UserDatabase;
 import umm3601.user.UserController;
@@ -27,7 +27,7 @@ public class Server {
         // This sets things up so that the path "/api" will
         // return an overview of the various paths that this
         // Javalin server supports.
-        config.registerPlugin(new RouteOverviewPlugin("/api"));
+        config.plugins.register(new RouteOverviewPlugin("/api"));
       }
     ).start(PORT_NUMBER);
 
