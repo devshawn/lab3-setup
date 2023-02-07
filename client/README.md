@@ -1,10 +1,10 @@
 # Client
 
-This project was generated with the [Angular CLI](https://github.com/angular/angular-cli).
+This project was generated with the [Angular CLI](https://github.com/angular/angular-cli). Note: CLI stands for Command Line Interface.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a "dev server", which will let you see your client-side app (i.e., your web app). Navigate to `http://localhost:4200/`. The app will automatically reload if you change (and save) any of the source files.
 
 ## Code scaffolding
 
