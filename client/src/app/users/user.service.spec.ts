@@ -127,7 +127,7 @@ describe('UserService', () => {
           users => expect(users).toBe(testUsers)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        // Specify that (exactly) one request will be made to the specified URL with the age parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(userService.userUrl) && request.params.has('age')
         );
@@ -135,7 +135,7 @@ describe('UserService', () => {
         // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role parameter was 'admin'
+        // Check that the age parameter was '25'
         expect(req.request.params.get('age')).toEqual('25');
 
         req.flush(testUsers);
@@ -156,7 +156,7 @@ describe('UserService', () => {
         // Check that the request made to that URL was a GET request.
         expect(req.request.method).toEqual('GET');
 
-        // Check that the role parameters are correct
+        // Check that the role, company, and age parameters are correct
         expect(req.request.params.get('role')).toEqual('editor');
         expect(req.request.params.get('company')).toEqual('IBM');
         expect(req.request.params.get('age')).toEqual('37');
