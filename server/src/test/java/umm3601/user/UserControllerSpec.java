@@ -46,9 +46,6 @@ public class UserControllerSpec {
   private Context ctx;
 
   @Captor
-  private ArgumentCaptor<User[]> userArrayCaptor54;
-
-  @Captor
   private ArgumentCaptor<User[]> userArrayCaptor;
 
   @BeforeEach
