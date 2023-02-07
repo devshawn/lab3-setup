@@ -1,7 +1,6 @@
 package umm3601.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +14,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
@@ -37,13 +39,22 @@ import umm3601.Server;
 @SuppressWarnings({ "MagicNumber" })
 public class UserControllerSpec {
 
-  private Context ctx = mock(Context.class);
-
   private UserController userController;
   private static UserDatabase db;
 
+  @Mock
+  private Context ctx;
+
+  @Captor
+  private ArgumentCaptor<User[]> userArrayCaptor54;
+
+  @Captor
+  private ArgumentCaptor<User[]> userArrayCaptor;
+
   @BeforeEach
   public void setUp() throws IOException {
+    // Reset our mock context and argument captor (declared with Mockito annotations @Mock and @Captor)
+    MockitoAnnotations.openMocks(this);
     db = new UserDatabase(Server.USER_DATA_FILE);
     userController = new UserController(db);
   }
@@ -54,9 +65,8 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     // Confirm that `json` was called with all the users.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    assertEquals(db.size(), argument.getValue().length);
+    verify(ctx).json(userArrayCaptor.capture());
+    assertEquals(db.size(), userArrayCaptor.getValue().length);
   }
 
   @Test
@@ -73,13 +83,12 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     // Confirm that all the users passed to `json` have age 25.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
+    verify(ctx).json(userArrayCaptor.capture());
+    for (User user : userArrayCaptor.getValue()) {
       assertEquals(25, user.age);
     }
     // Confirm that there are 2 users with age 25
-    assertEquals(2, argument.getValue().length);
+    assertEquals(2, userArrayCaptor.getValue().length);
   }
 
   /**
@@ -113,11 +122,24 @@ public class UserControllerSpec {
     userController.getUsers(ctx);
 
     // Confirm that all the users passed to `json` work for OHMNET.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
+    verify(ctx).json(userArrayCaptor.capture());
+    for (User user : userArrayCaptor.getValue()) {
       assertEquals("OHMNET", user.company);
     }
+  }
+
+  @Test
+  public void getUsersByRole() throws IOException {
+    Map<String, List<String>> queryParams = new HashMap<>();
+    queryParams.put("role", Arrays.asList(new String[] {"viewer"}));
+
+    when(ctx.queryParamMap()).thenReturn(queryParams);
+    when(ctx.status()).thenReturn(HttpStatus.OK);
+    userController.getUsers(ctx);
+
+    verify(ctx).json(userArrayCaptor.capture());
+    verify(ctx).status(HttpStatus.OK);
+    assertEquals(5, userArrayCaptor.getValue().length);
   }
 
   @Test
@@ -132,13 +154,12 @@ public class UserControllerSpec {
 
     // Confirm that all the users passed to `json` work for OHMNET
     // and have age 25.
-    ArgumentCaptor<User[]> argument = ArgumentCaptor.forClass(User[].class);
-    verify(ctx).json(argument.capture());
-    for (User user : argument.getValue()) {
+    verify(ctx).json(userArrayCaptor.capture());
+    for (User user : userArrayCaptor.getValue()) {
       assertEquals(25, user.age);
       assertEquals("OHMNET", user.company);
     }
-    assertEquals(1, argument.getValue().length);
+    assertEquals(1, userArrayCaptor.getValue().length);
   }
 
   @Test
