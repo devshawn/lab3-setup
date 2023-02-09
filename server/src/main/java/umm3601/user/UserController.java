@@ -1,43 +1,54 @@
 package umm3601.user;
 
-import com.google.gson.Gson;
+import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
+import io.javalin.http.NotFoundResponse;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-
+/**
+ * Controller that manages requests for info about users.
+ */
 public class UserController {
 
-    private User[] users;
+  private UserDatabase userDatabase;
 
-    public UserController() throws IOException {
-        Gson gson = new Gson();
-        FileReader reader = new FileReader("src/main/data/users.json");
-        users = gson.fromJson(reader, User[].class);
+  /**
+   * Construct a controller for users.
+   * <p>
+   * This loads the "database" of user info from a JSON file and stores that
+   * internally so that (subsets of) users can be returned in response to
+   * requests.
+   *
+   * @param userDatabase the `UserDatabase` containing user data
+   */
+  public UserController(UserDatabase userDatabase) {
+    this.userDatabase = userDatabase;
+  }
+
+  /**
+   * Get the single user specified by the `id` parameter in the request.
+   *
+   * @param ctx a Javalin HTTP context
+   */
+  public void getUser(Context ctx) {
+    String id = ctx.pathParam("id");
+    User user = userDatabase.getUser(id);
+    if (user != null) {
+      ctx.json(user);
+      ctx.status(HttpStatus.OK);
+    } else {
+      throw new NotFoundResponse("No user with id " + id + " was found.");
     }
+  }
 
-    // List users
-    public User[] listUsers(Map<String, String[]> queryParams) {
-        User[] filteredUsers = users;
-
-        // Filter age if defined
-        if(queryParams.containsKey("age")) {
-            int age = Integer.parseInt(queryParams.get("age")[0]);
-            filteredUsers = filterUsersByAge(filteredUsers, age);
-        }
-
-        return filteredUsers;
-    }
-
-    // Filter users by age
-    public User[] filterUsersByAge(User[] filteredUsers, int age) {
-        return Arrays.stream(filteredUsers).filter(x -> x.age == age).toArray(User[]::new);
-    }
-
-    // Get a single user
-    public User getUser(String id) {
-        return Arrays.stream(users).filter(x -> x._id.equals(id)).findFirst().orElse(null);
-    }
+  /**
+   * Get a JSON response with a list of all the users in the "database".
+   *
+   * @param ctx a Javalin HTTP context
+   */
+  public void getUsers(Context ctx) {
+    User[] users = userDatabase.listUsers(ctx.queryParamMap());
+    ctx.json(users);
+    ctx.status(HttpStatus.OK);
+  }
 
 }
