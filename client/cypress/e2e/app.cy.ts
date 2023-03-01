@@ -9,6 +9,10 @@ describe('App', () => {
     cy.document().should('exist');
   });
 
+  it('Should have the correct page title', () => {
+    page.getPageTitle().should('eq', 'Home');
+  });
+
   it('Should have the correct title', () => {
     page.getAppTitle().should('contain', 'CSCI 3601 Lab 3');
   });

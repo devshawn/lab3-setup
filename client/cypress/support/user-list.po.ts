@@ -9,6 +9,16 @@ export class UserListPage {
     return cy.url();
   }
 
+
+  /**
+   * Gets the page title, which appears in the page tab
+   *
+   * @return the title of the component page
+   */
+  getPageTitle() {
+    return cy.title();
+  }
+
   /**
    * Gets the title of the app when visiting the `/users` page.
    *
