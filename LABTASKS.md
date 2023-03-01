@@ -45,7 +45,7 @@ The grid approach to organizing the `user-list` information
 leverages a `user-card` component.
 The `user-card` component is also used (in a slightly different way) in the `user-profile` component.
 Karma tests for each component are named
-almost the same as the component but include `.spec` before the `.ts`,
+almost the same as the component but include `.cy` before the `.ts`,
 and Cypress E2E tests for user-list
 are located in `client/cypress/e2e`. There are supporting files for the E2E tests (called 
 page objects) in `client/cypress/support`. The page objects are named similarly to the Cypress E2E tests, but also have `.po` before the `.ts`. The purpose of the page objects files is to help separate aspects of accessing elements on a page (like exactly what kind of component you are using) separate from the tests. That way, when you decide to use a simple button with a custom button (for example), your test will still just find the button. Specific information goes in the page object.
@@ -128,7 +128,7 @@ _functional_ behavior of specific features or stories.
    1. :question: Where do we specify the expected HTTP request type (PUT or GET or DELETE or whatever)?
    1. :question: Where do we specify what value the mock HTTP system should return in response
      to the expected request.
-4. Look over the E2E test for testing the age filtering in `client/cypress/e2e/user-list.spec.ts`.
+4. Look over the E2E test for testing the age filtering in `client/cypress/e2e/user-list.cy.ts`.
    1. :question: What is the `page` object? Where is that defined?
    1. :question: Where do we enter the value 27 in the age field?
       1. :question: How does Cypress find the age field?
