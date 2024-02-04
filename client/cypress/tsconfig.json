@@ -8,6 +8,7 @@
     "sourceMap": false
   },
   "include": [
-    "**/*.ts"
+    "**/*.ts",
+    "../cypress.config.ts"
   ]
 }
