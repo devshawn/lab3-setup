@@ -6,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 
 describe('Home', () => {
 
-  let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let de: DebugElement;
   let el: HTMLElement;
@@ -19,7 +18,6 @@ describe('Home', () => {
 
     fixture = TestBed.createComponent(HomeComponent);
 
-    component = fixture.componentInstance; // BannerComponent test instance
 
     // query for the link (<a> tag) by CSS element selector
     de = fixture.debugElement.query(By.css('.home-card'));

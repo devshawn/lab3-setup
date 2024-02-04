@@ -47,7 +47,7 @@
 
         <br>
         <div class="flex-row gap-10 flex-wrap">
-          <label>View type: </label>
+          <label for="viewType">View type: </label>
           <mat-radio-group aria-label="View type" [(ngModel)]="viewType" data-test="viewTypeRadio">
             <mat-radio-button value="card">Card</mat-radio-button>
             <mat-radio-button value="list">List</mat-radio-button>
@@ -75,7 +75,7 @@
           <mat-nav-list class="user-nav-list">
             <h3 mat-subheader>Users</h3>
             <a mat-list-item *ngFor="let user of this.filteredUsers" [routerLink]="['/users', user._id]" class="user-list-item">
-              <img matListItemAvatar [src]="user.avatar" *ngIf="this.user.avatar">
+              <img matListItemAvatar [src]="user.avatar" alt="Avatar for {{ user.name }}" *ngIf="this.user.avatar">
               <span matListItemTitle mat-line class="user-list-name"> {{user.name}} </span>
               <span matListItemLine class="user-list-role"> {{user.role}} </span>
             </a>

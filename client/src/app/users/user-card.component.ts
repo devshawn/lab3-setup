@@ -10,7 +10,4 @@ export class UserCardComponent {
 
   @Input() user: User;
   @Input() simple ? = false;
-
-  constructor() { }
-
 }

@@ -31,7 +31,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { UserCardComponent } from './users/user-card.component';
 import { UserProfileComponent } from './users/user-profile.component';
 
-const MATERIAL_MODULES: any[] = [
+const MATERIAL_MODULES: unknown[] = [
   MatListModule,
   MatButtonModule,
   MatIconModule,

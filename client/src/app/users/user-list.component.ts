@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User, UserRole } from './user';
 import { UserService } from './user.service';
+import { Subject, takeUntil } from 'rxjs';
 
 /**
  * A component that displays a list of users, either as a grid
@@ -30,6 +31,9 @@ export class UserListComponent implements OnInit {
   public userCompany: string;
   public viewType: 'card' | 'list' = 'card';
 
+  errMsg = '';
+  private ngUnsubscribe = new Subject<void>();
+
   /**
    * This constructor injects both an instance of `UserService`
    * and an instance of `MatSnackBar` into this component.
@@ -49,24 +53,31 @@ export class UserListComponent implements OnInit {
     this.userService.getUsers({
       role: this.userRole,
       age: this.userAge
-    }).subscribe(returnedUsers => {
-      // This inner function passed to `subscribe` will be called
-      // when the `Observable` returned by `getUsers()` has one
-      // or more values to return. `returnedUsers` will be the
-      // name for the array of `Users` we got back from the
-      // server.
-      this.serverFilteredUsers = returnedUsers;
-      this.updateFilter();
-    }, err => {
-      // If there was an error getting the users, log
-      // the problem and display a message.
-      console.error('We couldn\'t get the list of users; the server might be down');
-      this.snackBar.open(
-        'Problem contacting the server – try again',
-        'OK',
-        // The message will disappear after 3 seconds.
-        { duration: 3000 });
-    });
+    }).pipe(
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe({
+      // Next time we see a change in the Observable<User[]>,
+      // refer to that User[] as returnedUsers here and do the steps in the {}
+      next: (returnedUsers) => {
+        // First, update the array of serverFilteredUsers to be the User[] in the observable
+        this.serverFilteredUsers = returnedUsers;
+        // Then update the filters for our client-side filtering as described in this method
+        this.updateFilter();
+      },
+      // If we observe an error in that Observable, put that message in a snackbar so we can learn more
+      error: (err) => {
+        if (err.error instanceof ErrorEvent) {
+          this.errMsg = `Problem in the client – Error: ${err.error.message}`;
+        } else {
+          this.errMsg = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
+        }
+        this.snackBar.open(
+          this.errMsg,
+          'OK',
+          // The message will disappear after 6 seconds.
+          { duration: 6000 });
+      },
+    })
   }
 
   /**
