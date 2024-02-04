@@ -5,18 +5,17 @@ plugins {
   // Apply the application plugin to add support for building a CLI application
   id 'application'
 
-  // Apply the Jacoco plugin to add suppport for JUnit test coverage
-  // reports.
+  // Apply the Jacoco plugin to add suppport for JUnit test coverage reports.
   id 'jacoco'
 
   // Apply the checkstyle plugin to check for appropriate Java code style.
   id 'checkstyle'
 }
 
-// Build and run the project with Java 11
+// Build and run the project with Java 17
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(11)
+    languageVersion = JavaLanguageVersion.of(17)
   }
 }
 
@@ -34,9 +33,9 @@ mainClassName = 'umm3601.Server'
 dependencies {
 
   // Javalin, a simple web framework for Java
-  implementation 'io.javalin:javalin:5.3.2'
+  implementation 'io.javalin:javalin:5.6.3'
 
-  // Jackson, a JSON library for Java
+  // Jackson databaing library for JSON
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
 
   // Simple Logging Facade for Java
@@ -64,6 +63,8 @@ test {
   // After running the tests, generate a coverage report
   finalizedBy jacocoTestReport
 
+  // After running the tests, check the coverage level
+  finalizedBy jacocoTestCoverageVerification
 }
 
 jacocoTestReport {
@@ -83,7 +84,7 @@ jacocoTestReport {
     // to somehow fake incoming HTTP requests), so we are just
     // leaving it out of the coverage report and the coverage limits.
     classDirectories.setFrom(files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: 'umm3601/Server.class')
+      fileTree(dir: it, exclude: ['umm3601/Main.class', 'umm3601/Server.class'])
     }))
   }
 }
