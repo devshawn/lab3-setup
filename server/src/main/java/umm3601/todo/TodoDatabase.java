@@ -28,7 +28,7 @@ public class TodoDatabase {
     // the classpath, and returns `null` if it isn't found. We want to throw
     // an IOException if the data file isn't found, so we need to check for
     // `null` ourselves, and throw an IOException if necessary.
-    InputStream resourceAsStream = getClass().getResourceAsStream(todoDataFile);
+    InputStream resourceAsStream = TodoDatabase.class.getResourceAsStream(todoDataFile);
     if (resourceAsStream == null) {
       throw new IOException("Could not find " + todoDataFile);
     }
@@ -38,6 +38,9 @@ public class TodoDatabase {
     ObjectMapper objectMapper = new ObjectMapper();
     // Read our user data file into an array of `Todo` objects.
     allTodos = objectMapper.readValue(reader, Todo[].class);
+
+    // Close the `reader` to free resources.
+    reader.close();
   }
 
   public int size() {

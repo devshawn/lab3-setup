@@ -28,7 +28,7 @@ public class UserDatabase {
     // the classpath, and returns `null` if it isn't found. We want to throw
     // an IOException if the data file isn't found, so we need to check for
     // `null` ourselves, and throw an IOException if necessary.
-    InputStream resourceAsStream = getClass().getResourceAsStream(userDataFile);
+    InputStream resourceAsStream = UserDatabase.class.getResourceAsStream(userDataFile);
     if (resourceAsStream == null) {
       throw new IOException("Could not find " + userDataFile);
     }
@@ -37,7 +37,11 @@ public class UserDatabase {
     // objects.
     ObjectMapper objectMapper = new ObjectMapper();
     // Read our user data file into an array of User objects.
-    allUsers = objectMapper.readValue(reader, User[].class);  }
+    allUsers = objectMapper.readValue(reader, User[].class);
+
+    // Close the `reader` to free resources.
+    reader.close();
+  }
 
   public int size() {
     return allUsers.length;
