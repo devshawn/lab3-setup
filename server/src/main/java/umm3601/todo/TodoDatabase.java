@@ -1,6 +1,7 @@
 package umm3601.todo;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
@@ -20,14 +21,22 @@ import io.javalin.http.BadRequestResponse;
  */
 public class TodoDatabase {
 
-  private static final String OWNER = "owner";
-  private static final String STATUS = "status";
-  private static final String CATEGORY = "category";
   private Todo[] allTodos;
 
   public TodoDatabase(String todoDataFile) throws IOException {
-    InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(todoDataFile));
+    // The `.getResourceAsStream` method searches for the given resource in
+    // the classpath, and returns `null` if it isn't found. We want to throw
+    // an IOException if the data file isn't found, so we need to check for
+    // `null` ourselves, and throw an IOException if necessary.
+    InputStream resourceAsStream = getClass().getResourceAsStream(todoDataFile);
+    if (resourceAsStream == null) {
+      throw new IOException("Could not find " + todoDataFile);
+    }
+    InputStreamReader reader = new InputStreamReader(resourceAsStream);
+    // A Jackson JSON mapper knows how to parse JSON into sensible 'Todo'
+    // objects.
     ObjectMapper objectMapper = new ObjectMapper();
+    // Read our user data file into an array of `Todo` objects.
     allTodos = objectMapper.readValue(reader, Todo[].class);
   }
 
@@ -56,8 +65,8 @@ public class TodoDatabase {
     Todo[] filteredTodos = allTodos;
 
     // Filter status if defined
-    if (queryParams.containsKey(STATUS)) {
-      String targetStatus = queryParams.get(STATUS).get(0);
+    if (queryParams.containsKey("status")) {
+      String targetStatus = queryParams.get("status").get(0);
       filteredTodos = filterTodosByStatus(filteredTodos, targetStatus);
     }
     // Filter body if defined
@@ -66,13 +75,13 @@ public class TodoDatabase {
       filteredTodos = filterTodosByBody(filteredTodos, targetBody);
     }
     // Filter owner if defined
-    if (queryParams.containsKey(OWNER)) {
-      String targetOwner = queryParams.get(OWNER).get(0);
+    if (queryParams.containsKey("owner")) {
+      String targetOwner = queryParams.get("owner").get(0);
       filteredTodos = filterTodosByOwner(filteredTodos, targetOwner);
     }
     // Filter category if defined
-    if (queryParams.containsKey(CATEGORY)) {
-      String targetCategory = queryParams.get(CATEGORY).get(0);
+    if (queryParams.containsKey("category")) {
+      String targetCategory = queryParams.get("category").get(0);
       filteredTodos = filterTodosByCategory(filteredTodos, targetCategory);
     }
     // Sort todo with specific order if defined
@@ -167,13 +176,13 @@ public class TodoDatabase {
    */
   public Todo[] sortTodos(Todo[] todos, String targetOrder) {
     switch (targetOrder) {
-      case OWNER:
+      case "owner":
         return Arrays.stream(todos).sorted((x, y) -> x.owner.compareTo(y.owner)).toArray(Todo[]::new);
       case "body":
         return Arrays.stream(todos).sorted((x, y) -> x.body.compareTo(y.body)).toArray(Todo[]::new);
-      case STATUS:
+      case "status":
         return Arrays.stream(todos).sorted((x, y) -> Boolean.compare(x.status, y.status)).toArray(Todo[]::new);
-      case CATEGORY:
+      case "category":
         return Arrays.stream(todos).sorted((x, y) -> x.category.compareTo(y.category)).toArray(Todo[]::new);
       default:
         throw new BadRequestResponse("Specified order '" + targetOrder + "' is not an applicable todo attribute");

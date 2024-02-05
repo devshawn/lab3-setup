@@ -1,49 +1,85 @@
 package umm3601;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 import io.javalin.Javalin;
-import io.javalin.plugin.bundled.RouteOverviewPlugin;
 import io.javalin.http.InternalServerErrorResponse;
-import umm3601.user.UserDatabase;
-import umm3601.user.UserController;
-import umm3601.todo.TodoDatabase;
-import umm3601.todo.TodoController;
+import io.javalin.http.staticfiles.Location;
+import io.javalin.plugin.bundled.RouteOverviewPlugin;
 
 public class Server {
 
   private static final int SERVER_PORT = 4567;
-  public static final String USER_DATA_FILE = "/users.json";
-  public static final String TODO_DATA_FILE = "/todos.json";
+  public static final String CLIENT_DIRECTORY = "../client";
 
-  public static void main(String[] args) {
+  // The `controllers` field is an array of all the `Controller` implementations
+  // for the server. This is used to add routes to the server.
+  private Controller[] controllers;
 
-    // Initialize dependencies
-    UserController userController = buildUserController();
-    TodoController todoController = buildTodoController();
+  /**
+   * Construct a `Server` object that we'll use (via `startServer()`) to configure
+   * and start the server.
+   *
+   * @param controllers The implementations of `Controller` used for this server
+   */
+  public Server(Controller[] controllers) {
+    // This is what is known as a "defensive copy". We make a copy of
+    // the array so that if the caller modifies the array after passing
+    // it in, we don't have to worry about it. If we didn't do this,
+    // the caller could modify the array after passing it in, and then
+    // we'd be using the modified array without realizing it.
+    this.controllers = Arrays.copyOf(controllers, controllers.length);
+  }
 
-    Javalin server = Javalin.create(
-      config -> {
-        // This sets things up so that the path "/api" will
-        // return an overview of the various paths that this
-        // Javalin server supports.
-        config.plugins.register(new RouteOverviewPlugin("/api"));
-      }
-    ).start(SERVER_PORT);
+  /**
+   * Configure and start the server.
+   *
+   * This configures and starts the Javalin server, which will start listening for HTTP requests.
+   * It also sets up the server to shut down gracefully if it's killed or if the
+   * JVM is shut down.
+   */
+  void startServer() {
+    Javalin javalin = configureJavalin();
+    setupRoutes(javalin);
+    javalin.start(SERVER_PORT);
+  }
 
-    // API endpoints
-
-    // Get specific user
-    server.get("/api/users/{id}", userController::getUser);
-
-    // List users, filtered using query parameters
-    server.get("/api/users", userController::getUsers);
-
-    // Get specific todo
-    server.get("/api/todos/{id}", todoController::getTodo);
-
-    // List todos, filtered using query parameters
-    server.get("/api/todos", todoController::getTodos);
+  /**
+   * Configure the Javalin server. This includes
+   *
+   * - Adding a route overview plugin to make it easier to see what routes
+   *   are available.
+   * - Setting it up to shut down gracefully if it's killed or if the
+   *   JVM is shut down.
+   * - Setting up a handler for uncaught exceptions to return an HTTP 500
+   *   error.
+   *
+   * @return The Javalin server instance
+   */
+  private Javalin configureJavalin() {
+    /*
+     * Create a Javalin server instance. We're using the "create" method
+     * rather than the "start" method here because we want to set up some
+     * things before the server actually starts. If we used "start" it would
+     * start the server immediately and we wouldn't be able to do things like
+     * set up routes. We'll call the "start" method later to actually start
+     * the server.
+     *
+     * `plugins.register(new RouteOverviewPlugin("/api"))` adds
+     * a helpful endpoint for us to use during development. In particular
+     * `http://localhost:4567/api` shows all of the available endpoints and
+     * what HTTP methods they use. (Replace `localhost` and `4567` with whatever server
+     * and  port you're actually using, if they are different.)
+     */
+    Javalin server = Javalin.create(config -> {
+      // This tells the server where to look for static files,
+      // like HTML and JavaScript.
+      config.staticFiles.add(CLIENT_DIRECTORY, Location.EXTERNAL);
+      // This adds a Javalin plugin that will list all of the
+      // routes/endpoints that we add below on a page reachable
+      // via the "/api" path.
+      config.plugins.register(new RouteOverviewPlugin("/api"));
+    });
 
     // This catches any uncaught exceptions thrown in the server
     // code and turns them into a 500 response ("Internal Server
@@ -57,55 +93,35 @@ public class Server {
     server.exception(Exception.class, (e, ctx) -> {
       throw new InternalServerErrorResponse(e.toString());
     });
+
+    return server;
   }
 
   /**
-   * Create a database using the json file, use it as data source for a new
-   * UserController
+   * Setup routes for the server.
    *
-   * Constructing the controller might throw an IOException if there are problems
-   * reading from the JSON "database" file. If that happens we'll print out an
-   * error message exit the program.
+   * @param server The Javalin server instance
    */
-  private static UserController buildUserController() {
-    UserController userController = null;
-
-    try {
-      UserDatabase userDatabase = new UserDatabase(USER_DATA_FILE);
-      userController = new UserController(userDatabase);
-    } catch (IOException e) {
-      System.err.println("The server failed to load the user data; shutting down.");
-      e.printStackTrace(System.err);
-
-      // Exit from the Java program
-      System.exit(1);
+  private void setupRoutes(Javalin server) {
+    setDefaultRoutes(server);
+    // Add the routes for each of the implementations of `Controller` in the
+    // `controllers` array.
+    for (Controller controller : controllers) {
+      controller.addRoutes(server);
     }
-
-    return userController;
   }
 
   /**
-   * Create a database using the json file, use it as data source for a new
-   * TodoController
+   * Set up the default routes for the server.
    *
-   * Constructing the controller might throw an IOException if there are problems
-   * reading from the JSON "database" file. If that happens we'll print out an
-   * error message exit the program.
+   * This includes outes to redirect "simple" URLs to the actual
+   * HTML pages.
+   *
+   * @param server The Javalin server instance
    */
-  private static TodoController buildTodoController() {
-    TodoController todoController = null;
-
-    try {
-      TodoDatabase todoDatabase = new TodoDatabase(TODO_DATA_FILE);
-      todoController = new TodoController(todoDatabase);
-    } catch (IOException e) {
-      System.err.println("The server failed to load the todo data; shutting down.");
-      e.printStackTrace(System.err);
-
-      // Exit from the Java program
-      System.exit(1);
-    }
-
-    return todoController;
+  private void setDefaultRoutes(Javalin server) {
+    // Redirects to create simpler URLs
+    server.get("/users", ctx -> ctx.redirect("/users.html"));
+    server.get("/todos", ctx -> ctx.redirect("/todos.html"));
   }
 }
