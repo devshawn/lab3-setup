@@ -16,16 +16,16 @@ describe('UserProfileComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterTestingModule,
-        MatCardModule
-      ],
-      declarations: [UserProfileComponent, UserCardComponent],
-      providers: [
+        MatCardModule,
+        UserProfileComponent, UserCardComponent
+    ],
+    providers: [
         { provide: UserService, useValue: new MockUserService() },
         { provide: ActivatedRoute, useValue: activatedRoute }
-      ]
-    })
+    ]
+})
       .compileComponents();
   }));
 

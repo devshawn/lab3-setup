@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from './user';
 import { UserService } from './user.service';
+import { UserCardComponent } from './user-card.component';
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+    selector: 'app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    standalone: true,
+    imports: [UserCardComponent]
 })
 export class UserProfileComponent implements OnInit {
 
