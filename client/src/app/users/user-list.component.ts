@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { MatNavList, MatListSubheaderCssMatStyler, MatListItem, MatListItemAvatar, MatListItemTitle, MatListItemLine } from '@angular/material/list';
 import { UserCardComponent } from './user-card.component';
-import { NgIf, NgSwitch, NgSwitchCase, NgFor } from '@angular/common';
+
 import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
@@ -31,7 +31,7 @@ import { MatCard, MatCardTitle, MatCardContent } from '@angular/material/card';
     styleUrls: ['./user-list.component.scss'],
     providers: [],
     standalone: true,
-    imports: [MatCard, MatCardTitle, MatCardContent, MatFormField, MatLabel, MatInput, FormsModule, MatHint, MatSelect, MatOption, MatRadioGroup, MatRadioButton, NgIf, NgSwitch, NgSwitchCase, NgFor, UserCardComponent, MatNavList, MatListSubheaderCssMatStyler, MatListItem, RouterLink, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatError]
+    imports: [MatCard, MatCardTitle, MatCardContent, MatFormField, MatLabel, MatInput, FormsModule, MatHint, MatSelect, MatOption, MatRadioGroup, MatRadioButton, UserCardComponent, MatNavList, MatListSubheaderCssMatStyler, MatListItem, RouterLink, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatError]
 })
 export class UserListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
