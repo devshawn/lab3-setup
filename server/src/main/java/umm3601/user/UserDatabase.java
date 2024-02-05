@@ -1,12 +1,14 @@
 package umm3601.user;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.javalin.http.BadRequestResponse;
 
 /**
@@ -22,9 +24,23 @@ public class UserDatabase {
   private User[] allUsers;
 
   public UserDatabase(String userDataFile) throws IOException {
-    InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(userDataFile));
+    // The `.getResourceAsStream` method searches for the given resource in
+    // the classpath, and returns `null` if it isn't found. We want to throw
+    // an IOException if the data file isn't found, so we need to check for
+    // `null` ourselves, and throw an IOException if necessary.
+    InputStream resourceAsStream = UserDatabase.class.getResourceAsStream(userDataFile);
+    if (resourceAsStream == null) {
+      throw new IOException("Could not find " + userDataFile);
+    }
+    InputStreamReader reader = new InputStreamReader(resourceAsStream);
+    // A Jackson JSON mapper knows how to parse JSON into sensible 'User'
+    // objects.
     ObjectMapper objectMapper = new ObjectMapper();
+    // Read our user data file into an array of User objects.
     allUsers = objectMapper.readValue(reader, User[].class);
+
+    // Close the `reader` to free resources.
+    reader.close();
   }
 
   public int size() {
