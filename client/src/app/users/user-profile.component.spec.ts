@@ -61,9 +61,12 @@ describe('UserProfileComponent', () => {
     activatedRoute.setParamMap({ id: expectedUser._id });
     expect(component.user).toEqual(expectedUser);
 
+    expect(component.user).toEqual(expectedUser);
+
     // Changing the paramMap should update the displayed user profile.
     expectedUser = MockUserService.testUsers[1];
     activatedRoute.setParamMap({ id: expectedUser._id });
+
     expect(component.user).toEqual(expectedUser);
   });
 

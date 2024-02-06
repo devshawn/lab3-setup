@@ -1,11 +1,11 @@
 import { NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { User } from './user';
-import { UserCardComponent } from './user-card.component';
 import { UserService } from './user.service';
+import { UserCardComponent } from './user-card.component';
 
 @Component({
     selector: 'app-user-profile',
@@ -14,7 +14,7 @@ import { UserService } from './user.service';
     standalone: true,
     imports: [NgIf, UserCardComponent, MatCardModule]
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
 
   user: User;
   error: { help: string, httpResponse: string, message: string }
@@ -26,12 +26,24 @@ export class UserProfileComponent implements OnInit {
   // (like memory).
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService) {}
 
   ngOnInit(): void {
-    // We subscribe to the parameter map here so we'll be notified whenever
-    // that changes (i.e., when the URL changes) so this component will update
-    // to display the newly requested user.
+    // The `map`, `switchMap`, and `takeUntil` are all RXJS operators, and
+    // The result from the map step is the `id` string for the requested
+    // operator.
+    // The map step takes the `ParamMap` from the `ActivatedRoute`, which
+    // it into an Observable<User>, i.e., all the (zero or one) `User`s
+    // each represents a step in the pipeline built using the RXJS `pipe`
+    // is typically the URL in the browser bar.
+    // `User`.
+    // That ID string gets passed (by `pipe`) to `switchMap`, which transforms
+    // that have that ID.
+    // The `takeUntil` operator allows this pipeline to continue to emit values
+    // down and clean up any associated resources (like memory).
+    // until `this.ngUnsubscribe` emits a value, saying to shut the pipeline
     this.route.paramMap.pipe(
       // Map the paramMap into the id
       map((paramMap: ParamMap) => paramMap.get('id')),
@@ -45,10 +57,7 @@ export class UserProfileComponent implements OnInit {
       // associated resources (like memory) are cleaned up.
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
-      next: user => {
-        this.user = user;
-        return user;
-      },
+      next: user => this.user = user,
       error: _err => {
         this.error = {
           help: 'There was a problem loading the user – try again.',
@@ -66,4 +75,14 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    // When the component is destroyed, we'll emit an empty
+    // value as a way of saying that any active subscriptions should
+    // shut themselves down so the system can free up any associated
+    // resources, like memory.
+    this.ngUnsubscribe.next();
+    // Calling `complete()` says that this `Subject` is done and will
+    // never send any further values.
+    this.ngUnsubscribe.complete();
+  }
 }

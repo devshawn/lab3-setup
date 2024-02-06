@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User, UserRole } from './user';
 import { UserService } from './user.service';
@@ -33,7 +33,7 @@ import { MatCard, MatCardTitle, MatCardContent } from '@angular/material/card';
     standalone: true,
     imports: [MatCard, MatCardTitle, MatCardContent, MatFormField, MatLabel, MatInput, FormsModule, MatHint, MatSelect, MatOption, MatRadioGroup, MatRadioButton, UserCardComponent, MatNavList, MatListSubheaderCssMatStyler, MatListItem, RouterLink, MatListItemAvatar, MatListItemTitle, MatListItemLine, MatError]
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
   // These are public so that tests can reference them (.spec.ts)
   public serverFilteredUsers: User[];
   public filteredUsers: User[];
@@ -63,7 +63,11 @@ export class UserListComponent implements OnInit {
    * in the GUI.
    */
   getUsersFromServer() {
+    // A user-list-component is paying attention to userService.getUsers()
+    // (which is an Observable<User[]>).
+    // (For more on Observable, see: https://reactivex.io/documentation/observable.html)
     this.userService.getUsers({
+      // Filter the users by the role and age specified in the GUI
       role: this.userRole,
       age: this.userAge
     }).pipe(
@@ -108,5 +112,14 @@ export class UserListComponent implements OnInit {
    */
   ngOnInit(): void {
     this.getUsersFromServer();
+  }
+
+  /**
+   * When this component is destroyed, we should unsubscribe to any
+   * outstanding requests.
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
