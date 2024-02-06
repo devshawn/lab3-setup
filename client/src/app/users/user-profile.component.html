@@ -1,5 +1,9 @@
 <div class="flex-row">
   <div class="flex-1" fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10">
-    <app-user-card [user]="this.user"></app-user-card>
+    @if (this.user) {
+      <app-user-card [user]="this.user"></app-user-card>
+    } @else {
+      <p>Loading user profile data...</p>
+    }
   </div>
 </div>

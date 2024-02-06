@@ -46,7 +46,6 @@ describe('UserProfileComponent', () => {
     // it should update right away.
     activatedRoute.setParamMap({ id: expectedUser._id });
 
-    expect(component.id).toEqual(expectedUser._id);
     expect(component.user).toEqual(expectedUser);
   });
 
@@ -57,13 +56,13 @@ describe('UserProfileComponent', () => {
     // it should update right away.
     activatedRoute.setParamMap({ id: expectedUser._id });
 
-    expect(component.id).toEqual(expectedUser._id);
+    expect(component.user).toEqual(expectedUser);
 
     // Changing the paramMap should update the displayed user profile.
     expectedUser = MockUserService.testUsers[1];
     activatedRoute.setParamMap({ id: expectedUser._id });
 
-    expect(component.id).toEqual(expectedUser._id);
+    expect(component.user).toEqual(expectedUser);
   });
 
   it('should have `null` for the user for a bad ID', () => {
@@ -72,7 +71,6 @@ describe('UserProfileComponent', () => {
     // If the given ID doesn't map to a user, we expect the service
     // to return `null`, so we would expect the component's user
     // to also be `null`.
-    expect(component.id).toEqual('badID');
     expect(component.user).toBeNull();
   });
 });
