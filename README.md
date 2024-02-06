@@ -125,7 +125,7 @@ To recap, **here are the steps needed to _run_ the project**:
 
 1. Go into the `server` directory and enter `./gradlew run`.
 2. In a _different_ terminal (or terminal tab), go into the `client`
-   directory and enter `ng server`.
+   directory and enter `ng serve`.
 3. You can then go to `localhost:4200` in your favorite web browser
    and see your nifty Angular app.
 
