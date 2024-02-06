@@ -3,6 +3,9 @@
 - [Notations](#notations)
 - [Exploring the client](#exploring-the-client)
 - [Todo API: Redux](#todo-api-redux)
+- [Use GitHub Projects to support agile development](#use-github-projects-to-support-agile-development)
+  - [Setting up the GitHub Projects board](#setting-up-the-github-projects-board)
+  - [Using the board](#using-the-board)
 - [Writing (and testing) a beautiful client side application](#writing-and-testing-a-beautiful-client-side-application)
 - [Remember to test](#remember-to-test)
 - [Questions](#questions)
@@ -59,6 +62,103 @@ In Lab 2, you worked with your partner to implement an API for requesting
 for you with the lab. The API meets the specifications of lab 2 and
 can be found at `localhost:4567/api/todos` when you are running your server
 (go into the server directory of your project in a terminal window and execute `./gradlew run`).
+
+## Use GitHub Projects to support agile development
+
+We'll be using GitHub Projects to augment the standard GitHub issues
+system with nifty powers to aid in Agile estimating,
+planning, tracking, and development. The next two sections
+describe the software development tasks you need to complete
+for this lab, which all take the form of augmenting the server API with new functionality.
+
+### Setting up the GitHub Projects board
+
+Before you actually start _coding_ on any part of the lab, you
+should spend some time using issues and GitHub Projects to capture and estimate
+issues and do some planning.
+
+1. [ ] Go to the `Issues` tab for your repository
+2. [ ] Near the green `New issue` button, there is a button-like thing that says `Milestones` (click it)
+3. [ ] Click the green `New milestone` button
+4. [ ] Create a milestone for the lab that uses the lab's due date
+   1. If you'd like to make multiple, smaller milestones, you may do so
+   2. You can write in other information if you'd like, but at least include the one milestone for the lab's due date
+
+Once you have created a milestone, you will be ready to create a GitHub Projects board to act as your visual workspace that is connected to your GitHub repository.
+
+> :warning: One thing you should **not** do is create separate tasks for things like unit tests
+> or refactoring. Those activities should be "baked in" to your work flow, and not considered
+> separate (and therefore to some degree optional) activities.
+
+1. [ ] Click the `Projects` tab on your GitHub repository
+2. [ ] Use the green dropdown by the button to make that button read
+       `New project` (then, click `New project`)
+3. [ ] In the popup dialog, choose the `Feature release` template and then
+       click the green `Create` button
+
+The view that you see will have several views, each focused on a
+different way of thinking about the state of your project.
+
+If you haven't already assigned estimates as you went along, now is a good time to think about how difficult you think each task will be and put estimates on each issue.
+Once you've created and estimated all the issues, you
+should think about which ones you think you can reasonably
+do in this lab. This could be all of them, but it doesn't
+have to be. You can always add issues to this as
+things progress, and in general customers would rather see
+the set of issues you expect to complete in an iteration
+_increase_ rather than _decrease_, so being conservative in
+your initial planning is probably a Good Thing.
+
+You should move the issues you really expect to do into the `Ready`
+track, leaving all the other issues (that you may
+or may not do) in the `Backlog` track.
+
+Now, you are ready to get started working on the coding part of this lab!
+
+### Using the board
+
+You'll want to keep an eye on your board throughout the
+lab, using it to guide your decisions about what to work on,
+updating issues as you make progress, etc. When you start work
+on an issue, move it to the "In progress" track.
+
+Whenever you sit down to work on the project, you should be
+clearly working on a specific issue. If you feel like there's
+something that _needs_ to be done but isn't in an issue, you
+should make an issue for that before you start working on it.
+
+When you start work on a new issue, you should create a
+feature branch for that issue, and commit your work on that
+issue to that branch. Commit messages should refer to that
+issue (by number, e.g., `Issue #8`) so GitHub can auto-link
+the commits to that issue for you.
+
+When you feel like an issue is complete
+
+- Move that card to the `In review` track.
+- If you haven't already done so, create a Pull Request from
+  your feature branch onto your `main` branch.
+
+Then step away from that issue for a while,
+either by working on a different part of the lab, or by
+doing something unrelated to Software Design. Then come back
+back to that _as a team_ and review the requirements
+described in the issue and compare them to the functionality
+you implemented. Is the issue _done done_? Are there solid
+and complete tests that back up the work? Can you break it?
+Have you tried? Would you bet your career (or at least your
+next raise) on this working in a customer demo or out in the
+field?
+
+If you find bugs, document them, either in the existing issue, or through new issues. Then go back to working in
+the feature branch for that issue, and repeat the whole
+process.
+
+Once the issue passes review, you should
+
+- Merge the associated feature branch into master by accepting the (perhaps modified) pull request
+- Move the issue to the `Done` track (or, fee free to create more tracks as you see fit)
+- There are ways to automate the moves through the tracks based on what's happening in GitHub, but we won't look at that in detail for this lab.
 
 ## Writing (and testing) a beautiful client side application
 

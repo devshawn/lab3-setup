@@ -38,6 +38,7 @@ the version of Angular being used in examples and on-line documentation that you
 of the time, it won't matter very much, but there are times when something you find
 doesn't match what we're doing. If things seem odd, look at the versions for the
 example or documentation you're looking at just in case there's a mismatch that matters.
+
 ## Setup
 
 As in the previous lab, you'll be using VS Code and GitKraken. Once you've all joined your
