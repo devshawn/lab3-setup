@@ -1,46 +1,49 @@
+import { NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subject, map, switchMap, takeUntil } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
 import { UserCardComponent } from './user-card.component';
-import { Subject, map, switchMap, takeUntil } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-user-profile',
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.scss'],
     standalone: true,
-    imports: [UserCardComponent]
+    imports: [NgIf, UserCardComponent, MatCardModule]
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
 
   user: User;
+  error: { help: string, httpResponse: string, message: string }
+
   // This `Subject` will only ever emit one (empty) value when
   // `ngOnDestroy()` is called, i.e., when this component is
-  // destroyed. That can be used ot tell any subscriptions to
-  // terminate, allowing the system to free up their resources (like memory).
+  // destroyed. That can be used to tell any subscriptions to
+  // terminate, allowing the system to free up their resources
+  // (like memory).
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService,
-    private snackBar: MatSnackBar) { }
+    private userService: UserService) {}
 
   ngOnInit(): void {
     // The `map`, `switchMap`, and `takeUntil` are all RXJS operators, and
-    // each represents a step in the pipeline built using the RXJS `pipe`
+    // The result from the map step is the `id` string for the requested
     // operator.
     // The map step takes the `ParamMap` from the `ActivatedRoute`, which
+    // it into an Observable<User>, i.e., all the (zero or one) `User`s
+    // each represents a step in the pipeline built using the RXJS `pipe`
     // is typically the URL in the browser bar.
-    // The result from the map step is the `id` string for the requested
     // `User`.
     // That ID string gets passed (by `pipe`) to `switchMap`, which transforms
-    // it into an Observable<User>, i.e., all the (zero or one) `User`s
     // that have that ID.
     // The `takeUntil` operator allows this pipeline to continue to emit values
-    // until `this.ngUnsubscribe` emits a value, saying to shut the pipeline
     // down and clean up any associated resources (like memory).
+    // until `this.ngUnsubscribe` emits a value, saying to shut the pipeline
     this.route.paramMap.pipe(
       // Map the paramMap into the id
       map((paramMap: ParamMap) => paramMap.get('id')),
@@ -55,10 +58,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       takeUntil(this.ngUnsubscribe)
     ).subscribe({
       next: user => this.user = user,
-      error: () => {
-        this.snackBar.open('Problem loading the user – try again', 'OK', {
-          duration: 5000,
-        });
+      error: _err => {
+        this.error = {
+          help: 'There was a problem loading the user – try again.',
+          httpResponse: _err.message,
+          message: _err.error?.title,
+        };
       }
       /*
        * You can uncomment the line that starts with `complete` below to use that console message
