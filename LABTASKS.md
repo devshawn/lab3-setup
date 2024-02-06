@@ -35,7 +35,7 @@ The testing is handled in two new places:
   testing in Angular. These use Jasmine and Karma.
 - E2E (end-to-end) tests in `client/e2e`. These use Cypress. (Note: the picture shows the Cypress spec files in a folder called "integration", but the default and what we will use is now "e2e".)
 
-![Screenshot of the location of testing code in VSCode](images/location_of_testing_code.png | width=25)
+![Screenshot of the location of testing code in VSCode](images/location_of_testing_code.png)
 
 The starting code includes several
 ways of using Angular components to display user data.
