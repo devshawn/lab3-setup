@@ -3,6 +3,10 @@ export class AppPage {
     return cy.visit('/');
   }
 
+  getPageTitle() {
+    return cy.title();
+  }
+
   getAppTitle() {
     return cy.get('.app-title');
   }

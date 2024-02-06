@@ -8,6 +8,10 @@ describe('User list', () => {
     page.navigateTo();
   });
 
+  it('Should have the correct page title', () => {
+    page.getPageTitle().should('eq', 'Users');
+  });
+
   it('Should have the correct title', () => {
     page.getUserTitle().should('have.text', 'Users');
   });
