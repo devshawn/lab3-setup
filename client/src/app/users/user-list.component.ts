@@ -88,11 +88,6 @@ export class UserListComponent implements OnInit, OnDestroy {
         } else {
           this.errMsg = `Problem contacting the server – Error Code: ${err.status}\nMessage: ${err.message}`;
         }
-        this.snackBar.open(
-          this.errMsg,
-          'OK',
-          // The message will disappear after 6 seconds.
-          { duration: 6000 });
       },
     })
   }
