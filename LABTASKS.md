@@ -35,7 +35,7 @@ The testing is handled in two new places:
   testing in Angular. These use Jasmine and Karma.
 - E2E (end-to-end) tests in `client/e2e`. These use Cypress. (Note: the picture shows the Cypress spec files in a folder called "integration", but the default and what we will use is now "e2e".)
 
-![Location of testing code](https://user-images.githubusercontent.com/302297/108024936-25605500-6feb-11eb-87e5-829d4e9de44a.png)
+![Screenshot of the location of testing code in VSCode](images/location_of_testing_code.png | width=25)
 
 The starting code includes several
 ways of using Angular components to display user data.
@@ -47,7 +47,7 @@ The `user-card` component is also used (in a slightly different way) in the `use
 Karma tests for each component are named
 almost the same as the component but include `.cy` before the `.ts`,
 and Cypress E2E tests for user-list
-are located in `client/cypress/e2e`. There are supporting files for the E2E tests (called 
+are located in `client/cypress/e2e`. There are supporting files for the E2E tests (called
 page objects) in `client/cypress/support`. The page objects are named similarly to the Cypress E2E tests, but also have `.po` before the `.ts`. The purpose of the page objects files is to help separate aspects of accessing elements on a page (like exactly what kind of component you are using) separate from the tests. That way, when you decide to use a simple button with a custom button (for example), your test will still just find the button. Specific information goes in the page object.
 
 :question: Answer questions 1 through 4 in [QUESTIONS](#questions) below.
